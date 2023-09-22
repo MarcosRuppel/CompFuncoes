@@ -1,40 +1,43 @@
+# Definição das funções f(x) e g(x)
 def f(x):
     return x**2
-
 
 def g(x):
     return x - 1
 
+# Composição de funções
+def compose(f, g):
+    return lambda x: f(g(x))
 
-def composic_g_f(x):
-    return g(f(x))
+# Solicita ao usuário que insira as expressões das funções f(x) e g(x)
+f_expression = input("Digite a expressão da função f(x): ")
+g_expression = input("Digite a expressão da função g(x): ")
 
+# Avalia as expressões das funções e cria as funções correspondentes
+try:
+    exec(f"f = lambda x: {f_expression}")
+    exec(f"g = lambda x: {g_expression}")
+except Exception as e:
+    print("Erro ao criar as funções. Certifique-se de que a sintaxe está correta.")
+    exit()
 
-def composic_g_g(x):
-    return g(g(x))
+# Calcula as composições de funções
+gf = compose(g, f)
+gg = compose(g, g)
+ff = compose(f, f)
+fg = compose(f, g)
 
+# Solicita ao usuário que insira um valor para x
+x_value = float(input("Digite um valor para x: "))
 
-def composic_f_f(x):
-    return f(f(x))
+# Calcula as composições de funções para o valor de x fornecido
+result_gf = gf(x_value)
+result_gg = gg(x_value)
+result_ff = ff(x_value)
+result_fg = fg(x_value)
 
-
-def composic_f_g(x):
-    return f(g(x))
-
-
-def main():
-    x = float(input("Digite um valor para x: "))
-
-    result_g_f = composic_g_f(x)
-    result_g_g = composic_g_g(x)
-    result_f_f = composic_f_f(x)
-    result_f_g = composic_f_g(x)
-
-    print(f"(g ∘ f)(x) = {result_g_f}")
-    print(f"(g ∘ g)(x) = {result_g_g}")
-    print(f"(f ∘ f)(x) = {result_f_f}")
-    print(f"(f ∘ g)(x) = {result_f_g}")
-
-
-if __name__ == "__main__":
-    main()
+# Imprime os resultados
+print(f"(g ° f)({x_value}) = {result_gf}")
+print(f"(g ° g)({x_value}) = {result_gg}")
+print(f"(f ° f)({x_value}) = {result_ff}")
+print(f"(f ° g)({x_value}) = {result_fg}")
