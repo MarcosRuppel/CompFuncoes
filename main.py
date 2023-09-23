@@ -1,43 +1,32 @@
-# Definição das funções f(x) e g(x)
-def f(x):
-    return x**2
+import sympy as sp
+# Esse programa requer a instalacao do pacote "sympy" para reconhecer as
+# expressoes.
 
-def g(x):
-    return x - 1
 
-# Composição de funções
-def compose(f, g):
-    return lambda x: f(g(x))
+# Criação dos símbolos e das funções
+x = sp.symbols('x')
+f_x = sp.Function('f')(x)
+g_x = sp.Function('g')(x)
 
-# Solicita ao usuário que insira as expressões das funções f(x) e g(x)
-f_expression = input("Digite a expressão da função f(x): ")
-g_expression = input("Digite a expressão da função g(x): ")
+# Solicita as expressões de f(x) e g(x) ao usuário
+expressao_f = input("Digite a expressão de f(x): ")
+expressao_g = input("Digite a expressão de g(x): ")
 
-# Avalia as expressões das funções e cria as funções correspondentes
-try:
-    exec(f"f = lambda x: {f_expression}")
-    exec(f"g = lambda x: {g_expression}")
-except Exception as e:
-    print("Erro ao criar as funções. Certifique-se de que a sintaxe está correta.")
-    exit()
+# Avalia as expressões fornecidas pelo usuário
+f_x = sp.sympify(expressao_f)
+g_x = sp.sympify(expressao_g)
 
-# Calcula as composições de funções
-gf = compose(g, f)
-gg = compose(g, g)
-ff = compose(f, f)
-fg = compose(f, g)
+# Solicita o valor de x
+valor_x = float(input("Digite o valor de x: "))
 
-# Solicita ao usuário que insira um valor para x
-x_value = float(input("Digite um valor para x: "))
+# Calcula as composições das funções
+g_composta_f = g_x.subs(x, f_x).subs(x, valor_x)
+g_composta_g = g_x.subs(x, g_x).subs(x, valor_x)
+f_composta_f = f_x.subs(x, f_x).subs(x, valor_x)
+f_composta_g = f_x.subs(x, g_x).subs(x, valor_x)
 
-# Calcula as composições de funções para o valor de x fornecido
-result_gf = gf(x_value)
-result_gg = gg(x_value)
-result_ff = ff(x_value)
-result_fg = fg(x_value)
-
-# Imprime os resultados
-print(f"(g ° f)({x_value}) = {result_gf}")
-print(f"(g ° g)({x_value}) = {result_gg}")
-print(f"(f ° f)({x_value}) = {result_ff}")
-print(f"(f ° g)({x_value}) = {result_fg}")
+# Exibe os resultados
+print(f"(g ° f)({valor_x}) = {g_composta_f}")
+print(f"(g ° g)({valor_x}) = {g_composta_g}")
+print(f"(f ° f)({valor_x}) = {f_composta_f}")
+print(f"(f ° g)({valor_x}) = {f_composta_g}")
